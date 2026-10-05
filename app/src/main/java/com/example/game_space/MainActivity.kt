@@ -1,184 +1,242 @@
 package com.example.game_space
 
-import android.R.attr.contentDescription
-import android.R.id.bold
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.game_space.ui.theme.GamespaceTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            GamespaceTheme {
 
-                    TelaStart(modifier = Modifier)
+        enableEdgeToEdge()
+
+        setContent {
+            GamespaceTheme() {
+
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
+                    TelaPrincipal(
+                        modifier = Modifier.padding(innerPadding)
+                    )
+
+//                    TelaGameOver(
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+
                 }
             }
         }
     }
-
+}
 
 @Composable
-fun TelaStart(modifier: Modifier = Modifier) {
+fun TelaPrincipal(modifier: Modifier = Modifier) {
 
-    // Box principal
-    Box(modifier = modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
 
-        // Imagem de Fundo do Espaço
-        Image(
-            painter = painterResource(id = R.drawable.fundo_espaco),
-            contentDescription = "Imagem de fundo espacial",
-            contentScale = ContentScale.Crop, // Preenche todo o espaço disponível do seu container
-            modifier = Modifier.fillMaxSize()
-        )
-
-        // Coluna dos elementos
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-
-            verticalArrangement = Arrangement.SpaceEvenly, // Centraliza os itens na vertical
-
+        // Informações do jogador
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
 
-            // Caixa dos elemento - Play
-            Box(
-                modifier = Modifier
-                    .background(color = Color(0xFF7E3DF6), RoundedCornerShape(10.dp))
-                    .border(width = 2.dp, shape = RoundedCornerShape(10.dp), color = Color.Black)
-                    .padding(8.dp)
-                    .size(width = 150.dp, height = 30.dp),
+            Text(
+                text = "SCORE: 0050",
+                color = Color.White
+            )
 
-                contentAlignment = Alignment.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Text(
-                    text = "PLAY",
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC107),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center
+                    text = "LIVES:",
+                    color = Color.White
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(50.dp),
+                    cor = Color.Green
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(50.dp),
+                    cor = Color.Green
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(50.dp),
+                    cor = Color.Green
                 )
             }
+        }
 
-            // Caixa dos elemento - Continue
-            Box(
+        // Inimigos na parte superior da tela
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            InimigoEspacial(
+                modifier = Modifier.size(70.dp),
+                cor = Color.Green
+            )
+
+            InimigoEspacial(
+                modifier = Modifier.size(70.dp),
+                cor = Color.Red
+            )
+
+            InimigoEspacial(
+                modifier = Modifier.size(70.dp),
+                cor = Color.Blue
+            )
+
+            InimigoEspacial(
+                modifier = Modifier.size(70.dp),
+                cor = Color.Yellow
+            )
+
+            InimigoEspacial(
+                modifier = Modifier.size(70.dp),
+                cor = Color.Green
+            )
+        }
+
+        // Nave e botão de início
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+
+            NaveEspacial(
                 modifier = Modifier
-                    .background(color = Color(0xFF7E3DF6),RoundedCornerShape(10.dp) )
-                    .border(width = 2.dp, shape = RoundedCornerShape(10.dp), color = Color.Black,)
-                    .padding(8.dp)
-                    .size(width = 150.dp, height = 30.dp),
+                    .padding(bottom = 60.dp)
+                    .size(100.dp)
+            )
 
-                contentAlignment = Alignment.Center
-
-
-            ) {
-
-                Text(
-                    text = "CONTINUE",
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC107),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            // Caixa dos elemento - Options
-            Box(
+            Text(
+                text = "PRESS START",
                 modifier = Modifier
-                    .background(color = Color(0xFF7E3DF6), RoundedCornerShape(10.dp))
-                    .border(width = 2.dp, shape = RoundedCornerShape(10.dp), color = Color.Black)
-                    .padding(8.dp)
-                    .size(width = 150.dp, height = 30.dp),
-
-                contentAlignment = Alignment.Center
-
-            ) {
-
-                Text(
-                    text = "OPTIONS",
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC107),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            // Caixa dos elemento - Credits
-            Box(
-                modifier = Modifier
-                    .background(color = Color(0xFF7E3DF6),RoundedCornerShape(10.dp))
-                    .border(width = 2.dp, shape = RoundedCornerShape(10.dp), color = Color.Black)
-                    .padding(8.dp)
-                    .size(width = 150.dp, height = 30.dp),
-
-                contentAlignment = Alignment.Center
-
-            ) {
-
-                Text(
-                    text = "CREDITS",
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC107),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-            // Caixa dos elemento - Exit
-            Box(
-                modifier = Modifier
-                    .background(color = Color(0xFF7E3DF6), RoundedCornerShape(10.dp))
-                    .border(width = 2.dp, shape = RoundedCornerShape(10.dp), color = Color.Black)
-                    .padding(8.dp)
-                    .size(width = 150.dp, height = 30.dp),
-
-                contentAlignment = Alignment.Center
-            ) {
-
-                Text(
-                    text = "EXIT",
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFFC107),
-                    fontSize = 22.sp,
-                    textAlign = TextAlign.Center
-                )
-            }
-
-
-
-
+                    .fillMaxWidth()
+                    .background(Color.DarkGray)
+                    .padding(10.dp),
+                color = Color.White,
+                textAlign = TextAlign.Center
+            )
         }
     }
+}
+
+@Composable
+fun TelaGameOver(modifier: Modifier = Modifier) {
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                InimigoEspacial(
+                    modifier = Modifier.size(80.dp),
+                    cor = Color.Green
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(80.dp),
+                    cor = Color.Red
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(80.dp),
+                    cor = Color.Blue
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(80.dp),
+                    cor = Color.Yellow
+                )
+
+                InimigoEspacial(
+                    modifier = Modifier.size(80.dp),
+                    cor = Color.Green
+                )
+            }
+
+            Text(
+                text = "GAME OVER",
+                color = Color.White,
+                fontSize = 67.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun InimigoEspacial(
+    modifier: Modifier = Modifier,
+    cor: Color
+) {
+
+    Image(
+        modifier = modifier,
+        painter = painterResource(
+            id = R.drawable.ic_launcher_foreground
+        ),
+        colorFilter = ColorFilter.tint(cor),
+        contentDescription = "Inimigo espacial"
+    )
+}
+
+@Composable
+fun NaveEspacial(modifier: Modifier = Modifier) {
+
+    Image(
+        modifier = modifier,
+        painter = painterResource(
+            id = R.drawable.ic_launcher_foreground
+        ),
+        contentDescription = "Nave espacial"
+    )
 }
